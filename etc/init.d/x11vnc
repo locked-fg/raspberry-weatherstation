@@ -1,0 +1,30 @@
+#!/bin/sh
+# /etc/init.d/x11vnc
+### BEGIN INIT INFO
+# Provides:          x11vnc
+# Required-Start:
+# Required-Stop:
+# Default-Start:     2 3 4 5
+# Default-Stop:      0 1 6
+# Short-Description: x11vnc
+# Description:
+### END INIT INFO
+
+
+case "$1" in
+start)
+echo "Starting x11vnc ... "
+_IP=$(hostname -I) || true
+x11vnc -nopw -display :0 -noxdamage -ncache 10 -ncache_cr -bg -listen $_IP
+
+;;
+stop)
+echo "Killing x11vnc ..."
+killall x11vnc
+;;
+*)
+echo "Usage: /etc/init.d/x11vnc {start|stop}"
+exit 1
+;;
+esac
+exit 0

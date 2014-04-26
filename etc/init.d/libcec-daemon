@@ -1,0 +1,29 @@
+#! /bin/sh
+### BEGIN INIT INFO
+# Provides:          libcec-daemon
+# Required-Start:    $all
+# Required-Stop:     $all
+# Default-Start:     2 3 4 5
+# Default-Stop:      0 1 6
+# Short-Description: cec library to use the TV remote
+# Description:       libcec provides the functionality to use the tv-remote as input device for the pc
+### END INIT INFO
+
+# Author: me
+#
+# Do NOT "set -e"
+
+case "$1" in
+    start)
+        /usr/local/bin/libcec-daemon -d
+        ;;
+    stop)
+        killall libcec-daemon
+        ;;
+    restart)
+        killall libcec-daemon
+        /usr/local/bin/libcec-daemon -d
+        ;;
+esac
+
+exit 0
