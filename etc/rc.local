@@ -24,7 +24,7 @@ if [ "$_IP" ]; then
   printf "My IP address is %s\n" "$_IP"
 fi
 
-/usr/local/bin/libcec-daemon -d 2>&1 > /dev/null
+# /usr/local/bin/libcec-daemon -d 2>&1 > /dev/null
 
 exit 0
 
