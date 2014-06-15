@@ -2,7 +2,7 @@
 # /etc/init.d/x11vnc
 ### BEGIN INIT INFO
 # Provides:          x11vnc
-# Required-Start:
+# Required-Start:    lightdm
 # Required-Stop:
 # Default-Start:     2 3 4 5
 # Default-Stop:      0 1 6
@@ -10,12 +10,10 @@
 # Description:
 ### END INIT INFO
 
-
 case "$1" in
 start)
 echo "Starting x11vnc ... "
-_IP=$(hostname -I) || true
-x11vnc -nopw -display :0 -noxdamage -ncache 10 -ncache_cr -bg -listen $_IP
+x11vnc -auth /var/run/lightdm/root/:0 -rfbauth /root/.vnc/passwd -no6 -noipv6 -reopen -forever -shared
 
 ;;
 stop)
@@ -28,3 +26,5 @@ exit 1
 ;;
 esac
 exit 0
+
+
