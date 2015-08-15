@@ -10,18 +10,25 @@
 # Description:
 ### END INIT INFO
 
-case "$1" in
-start)
-cd /home/pi/Weatherstation
-echo "get remote CSVs"
-sudo -u pi scp raspberrypi-outside:/home/pi/wetterstation/*.csv ./
-echo "Starting weatherstation and send it to background ..."
-java -jar Weatherstation-1.0-SNAPSHOT.jar  &
+. /lib/lsb/init-functions
 
+case "$1" in
+start) log_daemon_msg "starting weatherstation" "weatherstation"
+        cd /home/pi/Weatherstation
+        log_daemon_msg "get remote CSVs" "weatherstation"
+        sudo -u pi scp raspberrypi-outside:/home/pi/wetterstation/*.csv ./
+        log_daemon_msg "Starting weatherstation and send it to background ..." "weatherstation"
+        nice -n 7  java -jar Weatherstation-1.0-SNAPSHOT.jar  &
+        sleep 120
+        nice -n 15 java -cp Weatherstation-1.0-SNAPSHOT.jar de.locked.webexporter.Exporter &
 ;;
-stop)
-echo "shutting down Weatherstation ..."
-kill `jps -l | grep Weatherstation | awk '{print $1}'`
+stop) log_daemon_msg "stopping weatherstation" "weatherstation"
+        kill `jps -l | grep Weatherstation | awk '{print $1}'`
+        kill `jps -l | grep Exporter | awk '{print $1}'`
+;;
+restart)
+        $0 stop
+        $0 start
 ;;
 *)
 echo "Usage: /etc/init.d/weatherstation {start|stop}"
