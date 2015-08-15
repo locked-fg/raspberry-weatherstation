@@ -8,7 +8,7 @@ allow-hotplug wlan0
 iface wlan0 inet dhcp
 wpa-ap-scan 1
 wpa-scan-ssid 1
-wpa-ssid "FRITZ!Box Fon WLAN 7360 SL"
+wpa-ssid "place your SSID here"
 wpa-psk "place your wifi wpa key here"
 
 
